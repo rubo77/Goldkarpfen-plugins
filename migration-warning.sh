@@ -24,6 +24,5 @@ __MIGRATION(){
     echo "Seed your 'marked-for-deletion-stream' for some time and then delete it."
 fi
 }
-__HOOK_START(){
-  __MIGRATION
-}
+
+USER_HOOK_START="__MIGRATION ; $USER_HOOK_START"
