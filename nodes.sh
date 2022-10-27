@@ -50,6 +50,6 @@ if ! test "$GK_MODE" = "PASSIVE";then
     printf "  II it may be more convenient to open another terminal and use: ./sync-from-nodes.sh --loop\n  ?? proceed? (y/n) >"
     $GK_READ_CMD T_BUF; echo
     if test "$T_BUF" != "y";then return;fi
-    ./sync-from-nodes.sh
+    if test -f my-sync-from-nodes.sh;then ./my-sync-from-nodes.sh;else ./sync-from-nodes.sh;fi
   }
 fi
