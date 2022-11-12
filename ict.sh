@@ -1,5 +1,5 @@
 #GPL-3 - See LICENSE file for copyright and license details.
-#V0.12
+#V0.13
 #prt-01pJFCF3YGfyNgEDDNWHbBUMyeS2Rkgpux.itp
 USER_PLUGINS_MENU="[I]-ICT:__USER_ICT $USER_PLUGINS_MENU"
 __ICT_SHOW_CARD(){
@@ -44,7 +44,7 @@ __ICT_SHOW_CARD(){
       echo "„$___EXTRA“" | ag -v '„“' | fold -w 37 -s | sed 's/^/  /'
       printf "%39s\n" "[$___STRENGTH]"
       echo ; echo "___ REGEL"
-      echo "$___RULE_TITLE" | sed -e 's/&#8328;/₈/g' -e 's/&#8327;/₇/g' -e 's/&#8326;/₆/g' -e 's/&#8324;/₄/g' -e 's/&#8322;/₂/g' -e 's/&#8321;/₁/g' -e 's/&#9608;/█/g' -e 's/&nbsp;/ /g' 
+      echo "$___RULE_TITLE" | sed -e 's/&#8328;/₈/g' -e 's/&#8327;/₇/g' -e 's/&#8326;/₆/g' -e 's/&#8324;/₄/g' -e 's/&#8322;/₂/g' -e 's/&#8321;/₁/g' -e 's/&#9608;/█/g' -e 's/&nbsp;/ /g'
       printf "$(echo "$___RULE" | sed 's/<br>/\n/g')" | sed -e 's/&#8328;/₈/g' -e 's/&#8327;/₇/g' -e 's/&#8326;/₆/g' -e 's/&#8324;/₄/g' -e 's/&#8322;/₂/g' -e 's/&#8321;/₁/g' -e 's/&#9608;/█/g' -e 's/&nbsp;/ /g' | fold -w "$T_BUF" -s | sed 's/^/  /'
       break
     fi
@@ -69,7 +69,7 @@ __USER_ICT(){
         fi
       ;;
       n)
-        if test -z "$1"; then 
+        if test -z "$1"; then
           set '"card_id": 0,'
         fi
         set "$(ag --no-numbers --no-filename "\"card_id\":" archives/share/data.json | ag -A 1 "$1" | tail -n 1)"
@@ -77,7 +77,7 @@ __USER_ICT(){
         if test "$1" = '"card_id": 0,';then echo "first card";fi
       ;;
       p)
-        if test -z "$1"; then 
+        if test -z "$1"; then
           set '"card_id": 27791,'
         fi
         set "$(ag --no-numbers --no-filename "\"card_id\":" archives/share/data.json | ag -B 1 "$1" | head -n 1)"

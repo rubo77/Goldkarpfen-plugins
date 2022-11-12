@@ -1,5 +1,5 @@
 #GPL-3 - See LICENSE file for copyright and license details.
-#V0.7
+#V0.8
 #Goldkarpfen-1JULSJ5Nnba9So48zi21rpfTuZ3tqNRaFB.itp
 USER_PLUGINS_MENU="[w]-whats_new:__USER_WHATSNEW $USER_PLUGINS_MENU"
 __USER_WHATSNEW(){
@@ -18,7 +18,7 @@ __USER_WHATSNEW(){
   printf "##### COMMENTS #####\n"
   ag --noheading --nonumbers "^$T_BUF:\d \d\d\.\d\d:\d @" *.itp | grep -v '^$' |
   while IFS= read -r T_LINE;do
-    # alias alias2 text1 text2
+    # alias1 alias2
     set "$(echo $T_LINE| __collum 1 '-')" "$(ag $(echo $T_LINE| sed 's/^.*[[:digit:]][[:digit:]]\.[[:digit:]][[:digit:]]:[[:digit:]] [[:digit:]][[:digit:]]\.[[:digit:]][[:digit:]]:[[:digit:]] @//' | __collum 1 ) ../cache/aliases | __collum 1)"
     echo "$T_BUF" "[$1] -> [$2] " "$(echo $T_LINE | sed 's/^.*[[:digit:]][[:digit:]]\.[[:digit:]][[:digit:]]:[[:digit:]] [[:digit:]][[:digit:]]\.[[:digit:]][[:digit:]]:[[:digit:]] @.................................. //')" | ag "\[$2\]"
   done
