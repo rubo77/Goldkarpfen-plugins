@@ -1,5 +1,5 @@
 #GPL-3 - See LICENSE file for copyright and license details.
-#V0.8
+#V0.9
 #Goldkarpfen-1JULSJ5Nnba9So48zi21rpfTuZ3tqNRaFB.itp
 USER_PLUGINS_MENU="[D]-delete:__USER_DELETE $USER_PLUGINS_MENU"
 __USER_DELETE(){
@@ -12,7 +12,7 @@ __USER_DELETE(){
   $GK_READ_CMD T_CONFIRM;if test "$T_CONFIRM" != "Y";then printf "\n  II aborted\n";return;fi
   ITPFILE=$OWN_STREAM; __INIT_GLOBALS
   if test "$(echo $T_BUF | __collum 1 "/")" = "archives";then
-    rm "$T_BUF"
+    rm "$T_BUF"*
     ./update-archive-date.sh
     printf "\n  II archive file $T_BUF deleted"
     printf "\n  ?? add this stream to your blacklist? (y/n) >"
