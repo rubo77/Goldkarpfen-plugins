@@ -38,7 +38,6 @@ if test "$GK_MODE" = "tor"  || test "$GK_MODE" = "i2p";then
       if test "$T_CONFIRM" != "y";then return;fi
       echo; sed -i "1s%^#ITP%#ITP <url1=$T_BUF>%" $OWN_STREAM
       __OWN_SHA_SUM_UPDATE
-      __INIT_FILES
     fi
     return
   }
