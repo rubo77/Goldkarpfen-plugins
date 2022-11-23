@@ -18,20 +18,20 @@ __USER_ADD(){
   return
 }
 
-if test "$GK_MODE" = "tor"  || test "$GK_MODE" = "i2p";then
+if echo "$GK_MODE" | ag "tor|i2p" > /dev/null;then
   USER_PLUGINS_MENU="[h]-add_header_tag:__USER_HEADER $USER_PLUGINS_MENU"
   __USER_HEADER(){
     if head -n 1 "$OWN_STREAM" | ag -Q '<url1=';then
       echo "  II you have already a url1 header tag - edit it with [!]"
     else
-      if test "$GK_MODE" = "tor";then
-        echo "  II retrieve your onion hostname with: sudo cat /var/lib/tor/$OWN_ADDR/hostname"
-        echo "  II keep a backup of this folder: /var/lib/tor/$OWN_ADDR" | ag "."
-        printf "  Enter your url1 (format: [http|gopher]://_a_lot_of_numbers_and_characters_.onion) \n ??  "
-      else
-        echo "  II keep a backup of your i2p tunnel configuration" | ag "."
-        printf "  Enter your url1 (format: [http|gopher]://_a_lot_of_numbers_and_characters_.i2p) \n  ??  "
-      fi
+      printf "\nONION :\n"
+      echo "  II retrieve your onion hostname with: sudo cat /var/lib/tor/$OWN_ADDR/hostname"
+      echo "  II keep a backup of this folder: /var/lib/tor/$OWN_ADDR" | ag "."
+      echo "  url1-format : [http|gopher]://_a_lot_of_numbers_and_characters_.onion"
+      printf "\nI2P :\n"
+      echo "  II keep a backup of your i2p tunnel configuration" | ag "."
+      echo "  url1-format : [http|gopher]://_a_lot_of_numbers_and_characters_.i2p"
+      printf "\n  ?? enter your url1 >"
       read T_BUF
       printf "  ?? are you sure to add this tag to your itp-header? <url1=$T_BUF> (y/n) >"
       $GK_READ_CMD T_CONFIRM
@@ -43,12 +43,10 @@ if test "$GK_MODE" = "tor"  || test "$GK_MODE" = "i2p";then
   }
 fi
 
-if ! test "$GK_MODE" = "PASSIVE";then
-  USER_PLUGINS_MENU="[A]-sync_all:__USER_SYNC_ALL $USER_PLUGINS_MENU"
-  __USER_SYNC_ALL(){
-    printf "  II it may be more convenient to open another terminal and use: ./sync-from-nodes.sh --loop\n  ?? proceed? (y/n) >"
-    $GK_READ_CMD T_BUF; echo
-    if test "$T_BUF" != "y";then return;fi
-    if test -f my-sync-from-nodes.sh;then ./my-sync-from-nodes.sh;else ./sync-from-nodes.sh;fi
-  }
-fi
+USER_PLUGINS_MENU="[A]-sync_all:__USER_SYNC_ALL $USER_PLUGINS_MENU"
+__USER_SYNC_ALL(){
+  printf "  II it may be more convenient to open another terminal and use: ./sync-from-nodes.sh --loop\n  ?? proceed? (y/n) >"
+  $GK_READ_CMD T_BUF; echo
+  if test "$T_BUF" != "y";then return;fi
+  if test -f my-sync-from-nodes.sh;then ./my-sync-from-nodes.sh;else ./sync-from-nodes.sh;fi
+}
