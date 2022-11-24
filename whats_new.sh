@@ -1,5 +1,5 @@
 #GPL-3 - See LICENSE file for copyright and license details.
-#V0.8
+#V0.9
 #Goldkarpfen-1JULSJ5Nnba9So48zi21rpfTuZ3tqNRaFB.itp
 USER_PLUGINS_MENU="[w]-whats_new:__USER_WHATSNEW $USER_PLUGINS_MENU"
 __USER_WHATSNEW(){
@@ -12,7 +12,7 @@ __USER_WHATSNEW(){
   while IFS= read -r T_LINE;do
     # alias text
     set "$(echo $T_LINE| __collum 1 '-')" "$(echo $T_LINE | sed 's/^.*itp://')"
-    echo "$1" "$2" | tr -d '\n' | ag "^([a-zA-Z0-9]+) "
+    printf "\e[7m[$1]\e[0m $2" | fold -w $GK_COLS -s
     echo
   done
   printf "##### COMMENTS #####\n"
@@ -20,7 +20,7 @@ __USER_WHATSNEW(){
   while IFS= read -r T_LINE;do
     # alias1 alias2
     set "$(echo $T_LINE| __collum 1 '-')" "$(ag $(echo $T_LINE| sed 's/^.*[[:digit:]][[:digit:]]\.[[:digit:]][[:digit:]]:[[:digit:]] [[:digit:]][[:digit:]]\.[[:digit:]][[:digit:]]:[[:digit:]] @//' | __collum 1 ) ../cache/aliases | __collum 1)"
-    echo "$T_BUF" "[$1] -> [$2] " "$(echo $T_LINE | sed 's/^.*[[:digit:]][[:digit:]]\.[[:digit:]][[:digit:]]:[[:digit:]] [[:digit:]][[:digit:]]\.[[:digit:]][[:digit:]]:[[:digit:]] @.................................. //')" | ag "\[$2\]"
+    printf "$T_BUF [$1] -> \e[7m[$2]\e[0m $(echo $T_LINE | sed 's/^.*[[:digit:]][[:digit:]]\.[[:digit:]][[:digit:]]:[[:digit:]] [[:digit:]][[:digit:]]\.[[:digit:]][[:digit:]]:[[:digit:]] @.................................. //')\n" | fold -w $GK_COLS -s
   done
   cd ..
 }
