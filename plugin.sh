@@ -17,7 +17,7 @@ __USER_PLUGIN(){
   if $T_CMD -o downloads/"$(basename $2)";then
     if file -b --mime-type downloads/"$(basename $2)" | sed 's|/.*||' | ag -v "text";then echo "  EE fatal: $(basename $2) is not a textfile";return 1;fi
     if ! test "$3" = "$(sed -n '3p' downloads/$(basename $2))";then echo "  EE verification-stream mismatch: (posted itp-file and plugin itp-file are different) - abort";return 1; fi
-    cd downloads
+    cd downloads || exit
     if ! ag --no-numbers -Q "$(sha512sum $(basename $2))" ../itp-files/"$(sed -n '3p' $(basename $2) | sed 's/^#//' )";then
       echo "  II download could not be verified!" | ag "."
       printf "  II this can happen due the async-nature of the system (don’t be too upset for now):\n    - you have not the latest verfication stream\n    - the plugin is outdated or broken\n"

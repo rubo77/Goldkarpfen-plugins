@@ -1,5 +1,5 @@
 #GPL-3 - See LICENSE file for copyright and license details.
-#V0.9
+#V0.10
 #Goldkarpfen-1JULSJ5Nnba9So48zi21rpfTuZ3tqNRaFB.itp
 USER_PLUGINS_MENU="[D]-delete:__USER_DELETE $USER_PLUGINS_MENU"
 __USER_DELETE(){
@@ -15,19 +15,20 @@ __USER_DELETE(){
     rm "$T_BUF"*
     ./update-archive-date.sh
     printf "\n  II archive file $T_BUF deleted"
-    printf "\n  ?? add this stream to your blacklist? (y/n) >"
-    $GK_READ_CMD T_CONFIRM;if test "$T_CONFIRM" != "y";then printf "\n  II blacklisting skipped\n";return;fi
-    echo
-    echo $(basename "$T_BUF") >> blacklist.dat
-    sort <  blacklist.dat | uniq > tmp/blacklist.dat ; mv tmp/blacklist.dat ./blacklist.dat
   elif test "$(echo $T_BUF | __collum 1 "/")" = "itp-files";then
     rm "$T_BUF";echo
     __INIT_FILES
     echo "  II itp-file $T_BUF deleted"
-    echo -n "  ?? add this stream to your blacklist? (y/n) >"
-    $GK_READ_CMD T_CONFIRM;if test "$T_CONFIRM" != "y";then printf "\n  II blacklisting skipped\n";return;fi
+  fi
+  printf "\n  ?? add this stream to your blacklist? (y/n) >"
+  $GK_READ_CMD T_CONFIRM;
+  if test "$T_CONFIRM" != "y";then
+    printf "\n  II blacklisting skipped\n"
+  else
     echo
-    echo $(basename "$T_BUF" | __collum 1 "." )".itp.tar.gz" >> blacklist.dat
+    echo $(basename "$T_BUF") >> blacklist.dat
     sort <  blacklist.dat | uniq > tmp/blacklist.dat ; mv tmp/blacklist.dat ./blacklist.dat
   fi
+  T_BUF=$(basename $T_BUF)
+  if ag -g "${T_BUF%.tar.gz}$|$T_BUF$|$T_BUF.tar.gz$" itp-files archives;then echo "  II also exists";fi
 }
